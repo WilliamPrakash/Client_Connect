@@ -7,7 +7,7 @@
 <div class="text-center">
     <h1 class="display-4">Employees</h1>
     <br />
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
@@ -26,10 +26,8 @@
                     <td>@employee.Name</td>
                     <td>@employee.Email</td>
                     <td>@employee.Occupation</td>
-                    <td>
-                        <a asp-controller="Employee" asp-action="EditEmployee" asp-route-id="@employee.Id">Edit</a> |
-                        <a asp-controller="Employee" asp-action="DeleteEmployee" asp-route-id="@employee.Id">Delete</a>
-                    </td>
+                    <td><a asp-controller="Employee" asp-action="EditEmployeeView" asp-route-id="@employee.Id">Edit</a> </td>
+                    <td><a asp-controller="Employee" asp-action="DeleteEmployee" asp-route-id="@employee.Id">Delete</a> </td>
                 </tr>
             }
         </tbody>

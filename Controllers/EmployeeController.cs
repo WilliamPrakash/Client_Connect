@@ -28,16 +28,38 @@ namespace Client_Connect.Controllers
                 return View(employees);
             }
         }
-        #endregion
 
-        #region CRUD actions
-        public IActionResult EditEmployee(int id)
+        public IActionResult EditEmployeeView(int id)
         {
             using (_dbContext)
             {
                 Employee employeeToEdit = _dbContext.Employees.Single(employee => employee.Id == id);
-                // TODO create EditEmployee view
-                return View(employeeToEdit); // returns the view with the same name as the method
+                return View("EditEmployee", employeeToEdit);
+            }
+        }
+        #endregion
+
+        #region CRUD actions
+        public IActionResult EditEmployee(Employee editedEmployee)
+        {
+            using (_dbContext)
+            {
+                Employee employeeToEdit = _dbContext.Employees.Single(employee => employee.Id == editedEmployee.Id);
+                if (editedEmployee != null)
+                {
+                    employeeToEdit.Name = !string.IsNullOrEmpty(editedEmployee.Name)  ? editedEmployee.Name : employeeToEdit.Name;
+                    employeeToEdit.Email = !string.IsNullOrEmpty(editedEmployee.Email) ? editedEmployee.Email : employeeToEdit.Email;
+                    employeeToEdit.Occupation = !string.IsNullOrEmpty(editedEmployee.Occupation) ? editedEmployee.Occupation : employeeToEdit.Occupation;
+                    /* ERROR
+                    System.InvalidOperationException: 'The instance of entity type 'Employee' cannot be tracked because
+                    another instance with the same key value for {'Id'} is already being tracked. When attaching existing
+                    entities, ensure that only one entity instance with a given key value is attached. Consider using
+                    'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.' 
+                    _dbContext.Employees.Update(editedEmployee);*/
+                    _dbContext.SaveChanges();
+                }
+
+                return RedirectToAction("Index"); // returns the view with the same name as the method if no specific name is supplied
             }
         }
 
@@ -52,7 +74,7 @@ namespace Client_Connect.Controllers
                 _dbContext.Employees.Remove(employeeToDelete);
                 _dbContext.SaveChanges();
             }
-            return View("Index");
+            return RedirectToAction("Index");
         }
         #endregion
 
