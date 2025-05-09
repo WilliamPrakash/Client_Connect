@@ -29,37 +29,47 @@ namespace Client_Connect.Controllers
             }
         }
 
-        public IActionResult EditEmployeeView(int id)
+        public IActionResult AddEditEmployeeView(int? id)
         {
             using (_dbContext)
             {
-                Employee employeeToEdit = _dbContext.Employees.Single(employee => employee.Id == id);
-                return View("EditEmployee", employeeToEdit);
+                if (id != null)
+                {
+                    Employee employeeToEdit = _dbContext.Employees.Single(employee => employee.Id == id);
+                    return View("AddEditEmployee", employeeToEdit);
+                }
+                else
+                {
+                    return View("AddEditEmployee");
+                }
             }
         }
         #endregion
 
         #region CRUD actions
-        public IActionResult EditEmployee(Employee editedEmployee)
+        public IActionResult AddEditEmployee(Employee employee)
         {
             using (_dbContext)
             {
-                Employee employeeToEdit = _dbContext.Employees.Single(employee => employee.Id == editedEmployee.Id);
-                if (editedEmployee != null)
+                if (employee.Id != 0) // Editing an existing Employee
                 {
-                    employeeToEdit.Name = !string.IsNullOrEmpty(editedEmployee.Name)  ? editedEmployee.Name : employeeToEdit.Name;
-                    employeeToEdit.Email = !string.IsNullOrEmpty(editedEmployee.Email) ? editedEmployee.Email : employeeToEdit.Email;
-                    employeeToEdit.Occupation = !string.IsNullOrEmpty(editedEmployee.Occupation) ? editedEmployee.Occupation : employeeToEdit.Occupation;
-                    /* ERROR
-                    System.InvalidOperationException: 'The instance of entity type 'Employee' cannot be tracked because
-                    another instance with the same key value for {'Id'} is already being tracked. When attaching existing
-                    entities, ensure that only one entity instance with a given key value is attached. Consider using
-                    'DbContextOptionsBuilder.EnableSensitiveDataLogging' to see the conflicting key values.' 
-                    _dbContext.Employees.Update(editedEmployee);*/
-                    _dbContext.SaveChanges();
-                }
+                    Employee employeeToEdit = _dbContext.Employees.Single(emp => emp.Id == employee.Id);
+                    if (employee != null)
+                    {
+                        employeeToEdit.Name = !string.IsNullOrEmpty(employee.Name) ? employee.Name : employeeToEdit.Name;
+                        employeeToEdit.Email = !string.IsNullOrEmpty(employee.Email) ? employee.Email : employeeToEdit.Email;
+                        employeeToEdit.Occupation = !string.IsNullOrEmpty(employee.Occupation) ? employee.Occupation : employeeToEdit.Occupation;
+                        _dbContext.SaveChanges();
+                    }
 
-                return RedirectToAction("Index"); // returns the view with the same name as the method if no specific name is supplied
+                    return RedirectToAction("Index"); // returns the view with the same name as the method if no specific name is supplied
+                }
+                else // Adding a new Employee
+                {
+                    _dbContext.Add(employee);
+                    _dbContext.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
         }
 

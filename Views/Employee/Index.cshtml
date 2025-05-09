@@ -26,10 +26,11 @@
                     <td>@employee.Name</td>
                     <td>@employee.Email</td>
                     <td>@employee.Occupation</td>
-                    <td><a asp-controller="Employee" asp-action="EditEmployeeView" asp-route-id="@employee.Id">Edit</a> </td>
+                    <td><a asp-controller="Employee" asp-action="AddEditEmployeeView" asp-route-id="@employee.Id">Edit</a> </td>
                     <td><a asp-controller="Employee" asp-action="DeleteEmployee" asp-route-id="@employee.Id">Delete</a> </td>
                 </tr>
             }
         </tbody>
     </table>
+    <a class="btn btn-primary mt-4" asp-controller="Employee" asp-action="AddEditEmployeeView">Add</a>
 </div>

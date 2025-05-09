@@ -1,12 +1,14 @@
 ﻿@{
-    ViewData["Title"] = "Edit Employee";
+    ViewData["Title"] = "Add/Edit Employee";
+    bool add = Model == null ? true : false;
 }
 
 @model Employee
 
-<h1 class="display-4 text-center">Edit Employee</h1>
+<h1 class="display-4 text-center">@(add ? "Add" : "Edit" ) Employee</h1>
 
-<form asp-action="EditEmployee" asp-controller="Employee">
+
+<form asp-action="AddEditEmployee" asp-controller="Employee">
     <input hidden class="form-control" type="number" asp-for="Id" />
 
     <label class="mt-4">Name:</label>
@@ -18,5 +20,5 @@
     <label class="mt-4">Occupation:</label>
     <input class="form-control" type="text" asp-for="Occupation" />
 
-    <button class="btn btn-primary mt-4" type="submit">Submit employee edits</button>
+    <button class="btn btn-primary mt-4" type="submit">@(add ? "Create Employee" : "Submit Edits")</button>
 </form>
