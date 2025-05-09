@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Runtime.InteropServices;
 
-namespace MVC_Project.DAL;
+namespace Client_Connect.DAL;
 
 public class DatabaseConnect
 {

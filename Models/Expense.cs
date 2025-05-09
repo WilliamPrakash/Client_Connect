@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MVC_Project.Models;
+namespace Client_Connect.Models;
 
 public class Expense
 {
