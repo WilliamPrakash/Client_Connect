@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Client_Connect.Data;
-using MVC_Project.DAL;
+using Client_Connect.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
